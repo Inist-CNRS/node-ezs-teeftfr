@@ -1279,7 +1279,8 @@ describe('natural', () => {
                     done();
                 });
         });
-        it('should works with empty sentences', (done) => {
+
+        it('should work with empty sentences', (done) => {
             let res = [];
             from([{
                 path: '/path/1',
@@ -1303,7 +1304,8 @@ describe('natural', () => {
                     done();
                 });
         });
-        it('should works with fake sentences', (done) => {
+
+        it('should work with fake sentences', (done) => {
             let res = [];
             from([{
                 path: '/path/1',
@@ -1326,7 +1328,6 @@ describe('natural', () => {
                     done();
                 });
         });
-
     });
 });
 
