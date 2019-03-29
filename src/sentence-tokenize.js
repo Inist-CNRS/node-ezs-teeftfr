@@ -8,8 +8,8 @@ const sentencesCutter = (input) => {
     if (!tokens) {
         return [input];
     }
-    // remove unecessary white space
 
+    // remove unnecessary white space
     return tokens.filter(Boolean).map(s => s.trim());
 };
 
