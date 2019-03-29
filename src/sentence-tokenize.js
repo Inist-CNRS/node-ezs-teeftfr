@@ -1,6 +1,17 @@
-import { SentenceTokenizer } from 'natural';
+const sentencesCutter = (input) => {
+    if (!input || input.trim() === '') {
+        return [];
+    }
+    const regex = /(["'‘“'"[({⟨][^.?!]+[.?!]["'’”'"\])}⟩]|[^.?!]+[.?!\s]+)\s?/g;
+    const tokens = input.match(regex);
 
-const tokenizer = new SentenceTokenizer();
+    if (!tokens) {
+        return [input];
+    }
+
+    // remove unnecessary white space
+    return tokens.filter(Boolean).map(s => s.trim());
+};
 
 function TEEFTSentenceTokenize(data, feed) {
     if (this.isLast()) {
@@ -9,7 +20,7 @@ function TEEFTSentenceTokenize(data, feed) {
     const docsIn = Array.isArray(data) ? data : [data];
     const docsOut = docsIn.map(doc => ({
         path: doc.path,
-        sentences: tokenizer.tokenize(doc.content),
+        sentences: sentencesCutter(doc.content),
     }));
     feed.write(docsOut);
     feed.end();

@@ -1279,6 +1279,55 @@ describe('natural', () => {
                     done();
                 });
         });
+
+        it('should work with empty sentences', (done) => {
+            let res = [];
+            from([{
+                path: '/path/1',
+                content: '',
+            }, {
+                path: '/path/2',
+                content: 'Et ça j\'en suis sûr. Maintenant!',
+            }])
+                .pipe(ezs('TEEFTSentenceTokenize'))
+                // .pipe(ezs('debug'))
+                .on('data', (chunk) => {
+                    assert(chunk);
+                    assert(Array.isArray(chunk));
+                    res = res.concat(chunk);
+                })
+                .on('end', () => {
+                    assert.equal(res.length, 2);
+                    assert.equal(res[0].sentences.length, 0);
+                    assert.equal(res[1].sentences[0], 'Et ça j\'en suis sûr.');
+                    assert.equal(res[1].sentences[1], 'Maintenant!');
+                    done();
+                });
+        });
+
+        it('should work with fake sentences', (done) => {
+            let res = [];
+            from([{
+                path: '/path/1',
+                content: '.',
+            }, {
+                path: '/path/2',
+                content: '?',
+            }])
+                .pipe(ezs('TEEFTSentenceTokenize'))
+                // .pipe(ezs('debug'))
+                .on('data', (chunk) => {
+                    assert(chunk);
+                    assert(Array.isArray(chunk));
+                    res = res.concat(chunk);
+                })
+                .on('end', () => {
+                    assert.equal(res.length, 2);
+                    assert.equal(res[0].sentences[0], '.');
+                    assert.equal(res[1].sentences[0], '?');
+                    done();
+                });
+        });
     });
 });
 
